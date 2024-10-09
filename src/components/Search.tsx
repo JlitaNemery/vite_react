@@ -30,4 +30,4 @@ export default function Search({ setSearchVal }: SearchProps) {
       </Editable>
     </Box>
   );
-}
+};
