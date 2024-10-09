@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDebounce } from 'use-debounce';
+import { Box, Editable, EditableInput, EditablePreview } from '@chakra-ui/react';
 
 interface SearchProps {
   setSearchVal: Function
@@ -14,14 +15,19 @@ export default function Search({ setSearchVal }: SearchProps) {
   }, [value]);
 
   return (
-    <div>
-      <input
-        defaultValue={''}
+    <Box
+      margin='15px'
+    >
+      <Editable
+        defaultValue=''
         placeholder='Search here'
-        onChange={(e) => {
-          setText(e.target.value);
+        onChange={(value) => {
+          setText(value);
         }}
-      />
-    </div>
+      >
+        <EditablePreview />
+        <EditableInput />
+      </Editable>
+    </Box>
   );
 }

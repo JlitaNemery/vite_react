@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Card, CardHeader, CardBody, Image, Stack, Heading, Text, Divider, Tooltip } from '@chakra-ui/react'
 
 const imgUrl = 'https://image.tmdb.org/t/p/w500/';
 const bearer = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzRhYTk5NzI2YjJlZjA4MmRlYTEwNWQ4MTkxYWU3NCIsIm5iZiI6MTcyODM5MzMzMi43NjI0ODUsInN1YiI6IjY3MDUyOWZjYmQ3Y2Q4NmRhNTFkNTExNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KLDRvNUQ6sJ2yf8I0Y3C6AqPsbwPgLrB-pAzVJs-PHw';
@@ -43,15 +44,36 @@ export default function Boxes({ searchVal }: BoxesProps) {
         setTitles(titles);
     }
 
+    interface CardWrapperProps { box: Title }
+    const CardWrapper = ({ box}: CardWrapperProps) => (        
+        <Card maxW='sm'>            
+            <CardBody display='flex' flexDirection='column'>
+                <Tooltip label={box.title}>
+                    <CardHeader>
+                        <Heading size='md' overflow='hidden' whiteSpace='nowrap' textOverflow='ellipsis'>{box.title}</Heading>
+                    </CardHeader>
+                </Tooltip>
+                <Divider />
+                <Image
+                    src={imgUrl + box.imgUrl}
+                    alt={box.title}
+                    borderRadius='lg'
+                />
+                <Stack mt='6' spacing='3'>                    
+                    <Text color='blue.600' fontSize='2xl'>{box.voteCount}</Text>
+                    <Text color='blue.600' fontSize='2xl'>{box.voteAverage}</Text>
+                </Stack>
+            </CardBody>
+        </Card>
+    );
+
+
     return (
         <div className="boxes">
             {
-                titles.map((box, i) => (
-                    <div className="box" key={i}>
-                        <h2>{box.title}</h2>
-                        <img src={imgUrl + box.imgUrl} className="logo" alt={box.title} />
-                        <h3>{box.voteAverage}</h3>
-                        <h3>{box.voteCount}</h3>
+                error ? <h1>{error}</h1> : titles.map((box, key) => (
+                    <div className="box" key={key}>
+                        <CardWrapper box={box}/>
                     </div>
                 ))
             }
